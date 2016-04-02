@@ -84,11 +84,11 @@ void initArr(int T[], char A[]) {
 }
 
 void hashPrint() {
-	cout << "T:\t";
+	cout << "T:\n";
 
 	for (int i = 0; i < M; i++)
 	{
-		cout << T[i] << "  ";
+		cout << i << " : " << T[i] << endl;
 	}
 
 	cout << "\nA:\t";
