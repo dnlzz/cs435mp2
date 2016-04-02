@@ -137,8 +137,23 @@ int hashSearch(int T[], int k)
 	while (i != M) {
 		j = hashFunction(k, i);
 
-		if (T[j] == k) {
+		/*if (T[j] == k) {
 			return j;
+		}*/
+
+		if (T[j] >= 0)
+		{
+			for (int k = T[j]; k < currWord.length(); k++)
+			{
+				if (A[k] != currWord[k])
+				{
+					break;
+				}
+				
+			}
+
+			return j;
+
 		}
 
 		i++;
@@ -197,6 +212,7 @@ void HashBatch(string fn) {
 	int action;
 	string val;
 	int wVal;
+	int pos;
 
 	while (ifs >> str)
 	{
@@ -223,7 +239,16 @@ void HashBatch(string fn) {
 		case 12:
 			ifs >> val;
 			cout << "Action: " << action << "Val: " << val << endl;
-			//hashSearch();
+			currWord = val;
+			wVal = convertToAscii(val);
+			pos = hashSearch(T, wVal);
+			cout << "wVal: " << wVal << " pos " << pos << endl;
+			if (pos >= 0) {
+				cout << val << " found at index " << pos << endl;
+			}
+			else {
+				cout << val << " was not found" << endl;
+			}
 			break;
 		case 13:
 			hashPrint();
