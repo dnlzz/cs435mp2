@@ -3,6 +3,8 @@
 -1 : Available
 -2 : Deleted
 
+Bugs: Deleting words of length 1 sometimes causes other entries in array A to be partially deleted.
+
 */
 
 #include <iostream>
