@@ -14,38 +14,40 @@ HashBatch (lexicon L, file filename)
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
-#define M 11
+//#define M 11
 
 using namespace std;
 
 void insertWord(char arr[], string s);
 void initArr(int T[], char A[]);
+void hashPrint();
 int hashFunction(int k, int i);
 int hashSearch(int T[], int k);
 void hashDelete(int T[], int k);
 void hashInsert(int T[], int k);
+void HashBatch(string fn);
 int convertToAscii(string s);
 int charArrLoc;
 string currWord;
 int startOfNextWord;
-//int M;
+int M = 0;
+int *T;
+char *A;
 
 
 int main(int argc, char* argv[])
 {
-	charArrLoc = 0;
-	int T[M];
-	char A[8 * M];
 
-	initArr(T, A);
+	HashBatch(argv[1]);
 
 	currWord = "alex";
 	int aval = convertToAscii(currWord);
 	cout << "ascii val: " << aval << endl;
 
-	hashInsert(T, aval);
-	insertWord(A, currWord);
+	//hashInsert(T, aval);
+	//insertWord(A, currWord);
 
 	
 
@@ -53,8 +55,8 @@ int main(int argc, char* argv[])
 	int aval2 = convertToAscii(currWord);
 	cout << "ascii val: " << aval2 << endl;
 
-	hashInsert(T, aval2);
-	insertWord(A, currWord);
+//	hashInsert(T, aval2);
+	//insertWord(A, currWord);
 
 
 
@@ -62,24 +64,8 @@ int main(int argc, char* argv[])
 	int aval3 = convertToAscii(currWord);
 	cout << "ascii val: " << aval3 << endl;
 
-	hashInsert(T, aval3);
-	insertWord(A, currWord);
-
-	cout << "T:\t";
-
-	for (int i = 0; i < M; i++)
-	{
-		cout << T[i] << " ";
-	}
-
-	cout << "\nA:\t";
-
-	for (int i = 0; i < 8*M; i++)
-	{
-		cout << A[i] << " ";
-	}
-
-	cout << endl;
+	//hashInsert(T, aval3);
+	//insertWord(A, currWord);
 
 	return 0;
 }
@@ -113,6 +99,24 @@ void initArr(int T[], char A[]) {
 	{
 		A[i] = ' ';
 	}
+}
+
+void hashPrint() {
+	cout << "T:\t";
+
+	for (int i = 0; i < M; i++)
+	{
+		cout << T[i] << " ";
+	}
+
+	cout << "\nA:\t";
+
+	for (int i = 0; i < 8 * M; i++)
+	{
+		cout << A[i] << " ";
+	}
+
+	cout << endl;
 }
 
 int hashFunction(int k, int i)
@@ -181,6 +185,64 @@ void hashInsert(int T[], int k)
 	}
 
 	return;
+}
+
+void HashBatch(string fn) {
+
+	cout << fn << endl;
+
+	ifstream ifs;
+	ifs.open(fn);
+	string str;
+	int action;
+	string val;
+	int wVal;
+
+	while (ifs >> str)
+	{
+		action = atoi(str.c_str());
+		cout << "Action: " << action << endl;
+
+
+		switch (action)
+		{
+		case 10:
+			ifs >> val;
+			currWord = val;
+			wVal = convertToAscii(currWord);
+			cout << "ascii val: " << wVal << endl;
+			hashInsert(T, wVal);
+			insertWord(A, currWord);
+			cout << "Action: " << action << "\tVal: " << val << endl;
+			break;
+		case 11:
+			//hashDelete();
+			ifs >> val;
+			cout << "Action: " << action << "Val: " << val << endl;
+			break;
+		case 12:
+			ifs >> val;
+			cout << "Action: " << action << "Val: " << val << endl;
+			//hashSearch();
+			break;
+		case 13:
+			hashPrint();
+			break;
+		case 14:
+			ifs >> str;
+			cout << "str: " << str << endl;
+			M = atoi(str.c_str());
+			cout << M << endl;
+			charArrLoc = 0;
+			T = new int[M];
+			A = new char[8 * M];
+			initArr(T, A);
+			break;
+		default:
+			break;
+		}
+
+	}
 }
 
 int convertToAscii(string s) {
