@@ -1,6 +1,7 @@
 /*
 
-
+-1 : Available
+-2 : Deleted
 
 */
 
@@ -50,7 +51,6 @@ bool hashFull() {
 void insertWord(char arr[], string s) {
 	
 	int endIdx = startOfNextWord + s.length();
-	cout << "start: " << startOfNextWord << " end: " << endIdx << endl;
 	int wordIdx = 0;
 	for (int i = startOfNextWord; i <= endIdx; i++)
 	{
@@ -83,7 +83,7 @@ void hashPrint() {
 
 	for (int i = 0; i < M; i++)
 	{
-		cout << T[i] << " ";
+		cout << T[i] << "  ";
 	}
 
 	cout << "\nA:\t";
@@ -154,8 +154,6 @@ void hashDelete(int T[], int k)
 	if (i != -1) {
 		T[i] = -2;
 
-		cout << "start: " << startIdx << " end: " << endIdx << endl;
-
 		for (int k = startIdx; k < endIdx; k++)
 		{
 			A[k] = '*';
@@ -173,7 +171,6 @@ void hashDelete(int T[], int k)
 
 void hashInsert(int T[], int k)
 {
-	cout << "length: " << startOfNextWord << endl;
 
 	int i = 0;
 	int j;
@@ -211,8 +208,6 @@ void HashBatch(string fn) {
 	while (ifs >> str)
 	{
 		action = atoi(str.c_str());
-		cout << "Action: " << action << endl;
-
 
 		switch (action)
 		{
@@ -220,25 +215,20 @@ void HashBatch(string fn) {
 			ifs >> val;
 			currWord = val;
 			wVal = convertToAscii(currWord);
-			cout << "ascii val: " << wVal << endl;
 			hashInsert(T, wVal);
 			insertWord(A, currWord);
-			cout << "Action: " << action << "\tVal: " << val << endl;
 			break;
 		case 11:
 			ifs >> val;
-			cout << "Action: " << action << "Val: " << val << endl;
 			currWord = val;
 			wVal = convertToAscii(val);
 			hashDelete(T, wVal);
 			break;
 		case 12:
 			ifs >> val;
-			cout << "Action: " << action << "Val: " << val << endl;
 			currWord = val;
 			wVal = convertToAscii(val);
 			pos = hashSearch(T, wVal);
-			cout << "wVal: " << wVal << " pos " << pos << endl;
 			if (pos >= 0) {
 				cout << val << " found at index " << pos << endl;
 			}
@@ -251,7 +241,6 @@ void HashBatch(string fn) {
 			break;
 		case 14:
 			ifs >> str;
-			cout << "str: " << str << endl;
 			M = atoi(str.c_str());
 			cout << M << endl;
 			charArrLoc = 0;
