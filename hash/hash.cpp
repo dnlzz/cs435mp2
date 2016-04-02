@@ -131,6 +131,8 @@ int hashSearch(int T[], int k)
 {
 	int i;
 	int j;
+	int endIdx;
+	int wordIdx = 0;
 
 	i = 0;
 
@@ -143,17 +145,27 @@ int hashSearch(int T[], int k)
 
 		if (T[j] >= 0)
 		{
-			for (int k = T[j]; k < currWord.length(); k++)
+			
+			endIdx = T[j] + currWord.length() - 1;
+			cout << "starrt: " << T[j] << " end: " << endIdx << endl;
+
+			for (int k = T[j]; k < endIdx; k++)
 			{
-				if (A[k] != currWord[k])
+				if (A[k] == currWord[wordIdx])
 				{
+					cout << A[j];
+					cout << "K : " << k << endl;
+					wordIdx++;
+				}
+				else {
 					break;
 				}
-				
+
+				cout << "IF/ELSE\n";
+
+				return j;
+
 			}
-
-			return j;
-
 		}
 
 		i++;
