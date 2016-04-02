@@ -22,14 +22,16 @@ void hashInsert(int T[], int k);
 bool hashEmpty();
 bool hashFull();
 void HashBatch(string fn);
+void resize(char A[]);
 int convertToAscii(string s);
 int charArrLoc;
 string currWord;
 int startOfNextWord;
 int M = 0;
+int size;
 int numWords;
 int *T;
-char *A;
+char *A, *newArray;
 
 
 int main(int argc, char* argv[])
@@ -52,6 +54,7 @@ void insertWord(char arr[], string s) {
 	
 	int endIdx = startOfNextWord + s.length();
 	int wordIdx = 0;
+
 	for (int i = startOfNextWord; i <= endIdx; i++)
 	{
 		if (i == endIdx) {
@@ -88,7 +91,7 @@ void hashPrint() {
 
 	cout << "\nA:\t";
 
-	for (int i = 0; i < 8 * M; i++)
+	for (int i = 0; i < size; i++)
 	{
 		cout << A[i] << " ";
 	}
@@ -142,9 +145,7 @@ int hashSearch(int T[], int k)
 
 void hashDelete(int T[], int k)
 {
-	int i;
-	int j;
-	int startIdx, endIdx;
+	int i, startIdx, endIdx;
 
 	i = hashSearch(T, k);
 
@@ -216,7 +217,15 @@ void HashBatch(string fn) {
 			currWord = val;
 			wVal = convertToAscii(currWord);
 			hashInsert(T, wVal);
-			insertWord(A, currWord);
+			if (startOfNextWord + currWord.length() > size)
+			{
+				resize(A);
+				insertWord(A, currWord);
+			}
+			else {
+				insertWord(A, currWord);
+			}
+			
 			break;
 		case 11:
 			ifs >> val;
@@ -242,10 +251,10 @@ void HashBatch(string fn) {
 		case 14:
 			ifs >> str;
 			M = atoi(str.c_str());
-			cout << M << endl;
 			charArrLoc = 0;
 			T = new int[M];
 			A = new char[8 * M];
+			size = 8 * M;
 			initArr(T, A);
 			break;
 		default:
@@ -264,4 +273,21 @@ int convertToAscii(string s) {
 		asciiVal += (int)x;
 	}
 	return asciiVal;
+}
+
+void resize(char arr[]) {
+	newArray = new char[size * 2];
+	for (int i = 0; i < size * 2; i++)
+	{
+		if (i < size)
+		{
+			newArray[i] = arr[i];
+		}
+		else
+		{
+			newArray[i] = ' ';
+		}
+	}
+		A = newArray;
+		size *= 2;
 }
