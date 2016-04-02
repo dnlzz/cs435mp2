@@ -1,13 +1,6 @@
 /*
 
-HashCreate (lexicon L, int m); // Create T, A. T will have m slots; A should be 8m
-HashEmpty (lexicon L); // Check if L is empty
-HashFull (lexicon L); // Check if L can maintain more words
-HashPrint (lexicon L); // Print of L
-HashInsert (lexicon L, word w); //Insert w into L (and T and A)
-HashDelete (lexicon L, word w); //Delete w from L (but not necessarily from A)
-HashSearch (lexicon L, word w); //Search for string in L (and this means T)
-HashBatch (lexicon L, file filename)
+
 
 */
 
@@ -15,8 +8,6 @@ HashBatch (lexicon L, file filename)
 #include <string>
 #include <vector>
 #include <fstream>
-
-//#define M 11
 
 using namespace std;
 
@@ -27,12 +18,15 @@ int hashFunction(int k, int i);
 int hashSearch(int T[], int k);
 void hashDelete(int T[], int k);
 void hashInsert(int T[], int k);
+bool hashEmpty();
+bool hashFull();
 void HashBatch(string fn);
 int convertToAscii(string s);
 int charArrLoc;
 string currWord;
 int startOfNextWord;
 int M = 0;
+int numWords;
 int *T;
 char *A;
 
@@ -42,32 +36,15 @@ int main(int argc, char* argv[])
 
 	HashBatch(argv[1]);
 
-	currWord = "alex";
-	int aval = convertToAscii(currWord);
-	cout << "ascii val: " << aval << endl;
-
-	//hashInsert(T, aval);
-	//insertWord(A, currWord);
-
-	
-
-	currWord = "tom";
-	int aval2 = convertToAscii(currWord);
-	cout << "ascii val: " << aval2 << endl;
-
-//	hashInsert(T, aval2);
-	//insertWord(A, currWord);
-
-
-
-	currWord = "jerry";
-	int aval3 = convertToAscii(currWord);
-	cout << "ascii val: " << aval3 << endl;
-
-	//hashInsert(T, aval3);
-	//insertWord(A, currWord);
-
 	return 0;
+}
+
+bool hashEmpty() {
+	return numWords == 0;
+}
+
+bool hashFull() {
+	return numWords == M;
 }
 
 void insertWord(char arr[], string s) {
@@ -184,6 +161,8 @@ void hashDelete(int T[], int k)
 			A[k] = '*';
 		}
 
+		numWords--;
+
 	}
 	else {
 		cout << "Element not found\n";
@@ -203,6 +182,7 @@ void hashInsert(int T[], int k)
 		j = hashFunction(k, i);
 		if (T[j] == -1 || T[j] == -2) {
 			T[j] = startOfNextWord;
+			numWords++;
 			return;
 		}
 		i++;
@@ -226,6 +206,7 @@ void HashBatch(string fn) {
 	string val;
 	int wVal;
 	int pos;
+	numWords = 0;
 
 	while (ifs >> str)
 	{
