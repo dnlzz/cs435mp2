@@ -139,32 +139,21 @@ int hashSearch(int T[], int k)
 	while (i != M) {
 		j = hashFunction(k, i);
 
-		/*if (T[j] == k) {
-			return j;
-		}*/
 
 		if (T[j] >= 0)
 		{
-			
 			endIdx = T[j] + currWord.length() - 1;
-			cout << "starrt: " << T[j] << " end: " << endIdx << endl;
 
 			for (int k = T[j]; k < endIdx; k++)
 			{
 				if (A[k] == currWord[wordIdx])
 				{
-					cout << A[j];
-					cout << "K : " << k << endl;
 					wordIdx++;
 				}
 				else {
 					break;
 				}
-
-				cout << "IF/ELSE\n";
-
 				return j;
-
 			}
 		}
 
@@ -178,11 +167,23 @@ void hashDelete(int T[], int k)
 {
 	int i;
 	int j;
+	int startIdx, endIdx;
 
 	i = hashSearch(T, k);
 
+	startIdx = T[i];
+	endIdx = T[i] + currWord.length();
+
 	if (i != -1) {
 		T[i] = -2;
+
+		cout << "start: " << startIdx << " end: " << endIdx << endl;
+
+		for (int k = startIdx; k < endIdx; k++)
+		{
+			A[k] = '*';
+		}
+
 	}
 	else {
 		cout << "Element not found\n";
@@ -244,9 +245,11 @@ void HashBatch(string fn) {
 			cout << "Action: " << action << "\tVal: " << val << endl;
 			break;
 		case 11:
-			//hashDelete();
 			ifs >> val;
 			cout << "Action: " << action << "Val: " << val << endl;
+			currWord = val;
+			wVal = convertToAscii(val);
+			hashDelete(T, wVal);
 			break;
 		case 12:
 			ifs >> val;
